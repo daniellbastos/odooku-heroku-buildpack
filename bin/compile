@@ -60,7 +60,22 @@ export PKG_CONFIG_PATH=$BUILD_DIR/.heroku/vendor/lib/pkg-config:$BUILD_DIR/.hero
 pushd $BUILD_DIR > /dev/null
 
 # Install runtimes
-source $LIB_DIR/steps/runtimes/python
+# source $LIB_DIR/steps/runtimes/python
+# start test
+SOURCE_TARBALL='https://python.org/ftp/python/3.6.6/Python-3.6.6.tgz'
+curl -L $SOURCE_TARBALL | tar xz
+mv Python-3.6.6 src
+cd src
+
+./configure --prefix=$OUT_PREFIX --with-ensurepip=no
+make
+make install
+
+find "${OUT_PREFIX}" \( -type d -a \( -name test -o -name tests \) \) -exec rm -rf '{}' +
+
+ln $OUT_PREFIX/bin/python3 $OUT_PREFIX/bin/python
+# end
+
 
 # shebang for pip and other scripts point to:
 #!/app/.heroku/python//bin/python3.6

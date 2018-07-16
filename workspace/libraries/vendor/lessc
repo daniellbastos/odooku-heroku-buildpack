@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 # Build Path: /app/.heroku/vendor/
 
-OUT_PREFIX=$1
-
 echo "-----> Install node-less"
 apt-get install -y node-less
